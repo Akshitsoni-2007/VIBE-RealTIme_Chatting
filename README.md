@@ -146,7 +146,6 @@ Production deployment requires the frontend to use the deployed backend URL, app
 Potential improvements for future versions include:
 
 - 📎 Image and file sharing
-- 🟢 Online/offline presence indicators
 - ✍️ Typing indicators
 - ✅ Message delivery and read receipts
 - 🔔 Improved notification handling
