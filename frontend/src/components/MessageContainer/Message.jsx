@@ -16,9 +16,7 @@ const Message = ({ message }) => {
                         )}
                     </div>
                 </div>
-                <div className="chat-header">
-                    <time className="text-xs opacity-50">12:45</time>
-                </div>
+            
                 <div className="chat-bubble rounded-3xl bg-[#532c70] border border-white/5">{message?.message}</div>
             </div>
         </div>

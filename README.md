@@ -34,6 +34,9 @@ Vibe is a real-time chat application built to make communication simple, interac
 | JWT | Authentication |
 | bcryptjs | Password hashing |
 
+## 📸 Screenshots
+
+
 ## 📁 Project Structure
 
 ```text
