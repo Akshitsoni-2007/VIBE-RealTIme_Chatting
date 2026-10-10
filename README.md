@@ -36,9 +36,10 @@ Vibe is a real-time chat application built to make communication simple, interac
 
 ## 📸 Screenshots
 
-    ![Login_page](image.png)
-    ![SignUp_Page](image-1.png)
-    ![Interface](image-2.png)
+    <img width="1918" height="1079" alt="image" src="https://github.com/user-attachments/assets/c17c6e60-8c61-4624-8532-edcf0d07a861" />
+    <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/2e5b8036-2730-4024-ae96-6e3d126be371" />
+    <img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/3c07dcef-7e95-4d79-9732-cc6565e04a40" />
+
 
 ## 📁 Project Structure
 
