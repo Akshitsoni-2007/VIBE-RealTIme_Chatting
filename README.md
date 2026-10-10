@@ -36,6 +36,9 @@ Vibe is a real-time chat application built to make communication simple, interac
 
 ## 📸 Screenshots
 
+    ![Login_page](image.png)
+    ![SignUp_Page](image-1.png)
+    ![Interface](image-2.png)
 
 ## 📁 Project Structure
 
