@@ -92,7 +92,7 @@ Create a `.env` file inside the backend directory:
 ```env
 PORT=8080
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_long_random_secret
+JWT_SECRET_KEY=your_long_random_secret
 FRONTEND_URL=http://localhost:5173
 ```
 
@@ -121,15 +121,25 @@ Open the local URL printed by Vite in your terminal.
 
 ## 🔧 Environment Configuration
 
-The backend may require environment variables such as:
+### Backend (`backend/.env`)
 
-| Variable | Description |
-|---|---|
-| `PORT` | Port used by the backend server |
-| `MONGO_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Secret used to sign and verify JWTs |
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `PORT` | No | `8080` | Port used by the backend server |
+| `MONGO_URI` | Yes | — | MongoDB connection string |
+| `JWT_SECRET_KEY` | Yes | — | Secret used to sign and verify JWTs |
+| `FRONTEND_URL` | Yes | — | Exact origin of the frontend (e.g. `http://localhost:5173`), no trailing slash |
+| `NODE_ENV` | No | — | Set to `production` in prod; enables `secure` cookies over HTTPS |
+| `CROSS_SITE_COOKIES` | No | — | Set to `true` when frontend and backend are on different sites (sets `sameSite=none; secure`) |
+| `TRUST_PROXY` | No | — | Set to `1` (or hop count) when behind a reverse proxy / load balancer |
 
-Use the exact variable names your source code expects. Configure production secrets through your hosting provider's environment settings.
+### Frontend (`frontend/.env`)
+
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_API_URL` | Yes | Backend base URL (e.g. `http://localhost:8080`) |
+
+Use the exact variable names listed above. Configure production secrets through your hosting provider's environment settings.
 
 ## 🌐 Deployment
 

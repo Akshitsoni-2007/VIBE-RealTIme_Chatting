@@ -16,7 +16,7 @@ const isAuthenticated = async (req, res, next) => {
         req.id = decode.userID
         next()
     } catch (error) {
-        console.log(error)
+        return res.status(401).json({ message: "Invalid or expired token" })
     }
 }
 

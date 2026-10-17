@@ -2,6 +2,15 @@ import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
+const crossSite = process.env.CROSS_SITE_COOKIES === "true";
+const isProd = process.env.NODE_ENV === "production";
+const cookieOptions = {
+    httpOnly: true,
+    secure: crossSite || isProd,
+    sameSite: crossSite ? "none" : "lax",
+    maxAge: 24 * 60 * 60 * 1000,
+};
+
 export const register = async (req, res) => {
     try {
         const { fullname, username, password, confirmPassword, gender } = req.body;
@@ -59,7 +68,7 @@ export const login = async (req, res) => {
 
         const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" })
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "strict" }).json({
+        return res.status(200).cookie("token", token, cookieOptions).json({
             _id: user._id,
             username: user.username,
             fullname: user.fullname
@@ -72,7 +81,8 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
     try {
-        return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+        const { maxAge, ...clearOptions } = cookieOptions;
+        return res.status(200).clearCookie("token", clearOptions).json({
             message: "Logged out successfully"
         })
     } catch (error) {
