@@ -44,20 +44,26 @@ Vibe is a real-time chat application built to make communication simple, interac
 ## 📁 Project Structure
 
 ```text
-Vibe-V1/
+VIBE-RealTIme_Chatting/
 ├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── server.js
+│   ├── config/          # Database and app configuration
+│   ├── controllers/     # Request handling logic
+│   ├── middleware/      # Auth and other middleware
+│   ├── models/          # Mongoose schemas
+│   ├── routers/         # API route definitions
+│   ├── socket/          # Socket.IO setup and events
+│   ├── .gitignore
 │   ├── package.json
-│   └── .env
+│   └── server.js        # Backend entry point
 │
 ├── frontend/
-│   ├── public/
-│   ├── src/
+│   ├── public/          # Static assets
+│   ├── src/             # React components, pages, and Redux store
+│   ├── .gitignore
+│   ├── eslint.config.js
 │   ├── index.html
-│   └── package.json
+│   ├── package.json
+│   └── vite.config.js
 │
 └── README.md
 ```
@@ -77,7 +83,7 @@ Make sure you have the following installed or configured:
 
 ```bash
 git clone https://github.com/Akshitsoni-2007/VIBE-RealTIme_Chatting.git
-cd Vibe_V1 - MAIN
+cd VIBE-RealTIme_Chatting
 ```
 
 ### 2. Set Up the Backend
@@ -96,12 +102,9 @@ JWT_SECRET_KEY=your_long_random_secret
 FRONTEND_URL=http://localhost:5173
 ```
 
-Use the actual environment variable names expected by your backend code. Never commit your `.env` file or publish real credentials.
-
 Start the backend:
 
 ```bash
-npm install
 npm start
 ```
 
