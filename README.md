@@ -144,16 +144,6 @@ Open the local URL printed by Vite in your terminal.
 
 Use the exact variable names listed above. Configure production secrets through your hosting provider's environment settings.
 
-## 🌐 Deployment
-
-Vibe can be deployed using separate hosting services:
-
-- **Frontend:** [Vercel](https://vercel.com/)
-- **Backend:** [Render](https://render.com/)
-- **Database:** [MongoDB Atlas](https://www.mongodb.com/atlas)
-
-Production deployment requires the frontend to use the deployed backend URL, appropriate CORS configuration, and a working Socket.IO connection.
-
 ## 🔮 Future Improvements
 
 Potential improvements for future versions include:
