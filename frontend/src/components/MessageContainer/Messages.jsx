@@ -123,14 +123,34 @@ const Messages = () => {
 
   if (error) {
     return (
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pb-10 text-center">
-        <p className="text-[14px] font-medium text-mist-200">
-          Couldn't load this conversation
-        </p>
-        <p className="mt-1.5 max-w-xs text-[12.5px] leading-relaxed text-mist-500">
+      <div className="anim-fade relative z-10 flex flex-1 flex-col items-center justify-center px-8 pb-10 text-center">
+        <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-red-400/20 bg-red-500/[0.08] text-red-300">
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+          </svg>
+        </div>
+        <h2 className="font-serif text-[24px] leading-tight text-mist-50">
+          Couldn't load this conversation.
+        </h2>
+        <p className="mt-2 max-w-xs text-[13px] leading-relaxed text-mist-500">
           Your messages are still safe. Check your connection and try again.
         </p>
-        <button type="button" onClick={refetch} className="btn-quiet mt-4 h-9 px-3.5 text-[12.5px]">
+        <button
+          type="button"
+          onClick={refetch}
+          className="btn-quiet mt-5 h-9 px-3.5 text-[12.5px]"
+        >
           Try again
         </button>
       </div>
@@ -168,7 +188,7 @@ const Messages = () => {
       aria-label="Conversation"
       className="relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain"
     >
-      <div className="mx-auto flex w-full max-w-[880px] flex-col px-3 pb-5 pt-3 sm:px-6">
+      <div className="mx-auto flex min-h-full w-full max-w-[880px] flex-col justify-end px-3 pb-5 pt-3 sm:px-6">
         {timeline.map((item) =>
           item.type === "day" ? (
             <div key={item.key} className="flex items-center justify-center py-5">
