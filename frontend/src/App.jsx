@@ -59,7 +59,7 @@ const App = () => {
   }, [authUser])
 
   return (
-    <div className="h-screen w-full flex items-center justify-center">
+    <div className="min-h-dvh w-full">
       <RouterProvider router={router} />
     </div>
   )

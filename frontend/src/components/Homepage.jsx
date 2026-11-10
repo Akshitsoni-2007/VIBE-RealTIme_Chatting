@@ -4,7 +4,7 @@ import MessageContainer from './MessageContainer/MessageContainer.jsx';
 
 const Homepage = () => {
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#090b14] text-white font-sans">
+    <div className="flex h-dvh w-full overflow-hidden bg-[#090b14] text-white font-sans">
       <Sidebar />
       <MessageContainer />
     </div>

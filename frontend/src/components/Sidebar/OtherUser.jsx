@@ -12,7 +12,7 @@ const otherUser = ({ user }) => {
     return (
         <div className="flex gap-2 mt-2 flex-col">
             <div onClick={() => selectedUserHandler(user)} className={`flex gap-2 items-center rounded-2xl p-2.5 cursor-pointer select-none transition-all duration-300 ease-out ${selectedUser?._id === user?._id ? "bg-linear-to-r from-[#241542] via-[#432354] to-[#69366f] shadow-[0_6px_25px_rgba(105,54,111,0.25)]" : "bg-[#0d1220] hover:bg-[#171525]"}`}>
-                <div className={`avatar ${isOnline ? "avatar-online" : " "}`}>
+                <div className={`avatar shrink-0 ${isOnline ? "avatar-online" : ""}`}>
                     <div className="w-13 rounded-full overflow-hidden">
                         <Blobatar
                             name={user?.fullname}
@@ -20,9 +20,9 @@ const otherUser = ({ user }) => {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col flex-1">
-                    <div className="flex justify-between items-center gap-2 flex-1">
-                        <p>{user?.fullname}</p>
+                <div className="flex flex-col flex-1 min-w-0">
+                    <div className="flex justify-between items-center gap-2 flex-1 min-w-0">
+                        <p className="truncate">{user?.fullname}</p>
                     </div>
                 </div>
             </div>

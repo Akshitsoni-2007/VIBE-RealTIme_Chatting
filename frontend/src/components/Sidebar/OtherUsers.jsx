@@ -11,7 +11,7 @@ const OtherUsers = ({ users }) => {
     if (!displayUsers) return;
 
     return (
-        <div className="overflow-auto scrollbar-hidden">
+        <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
             {
                 displayUsers?.map((user) => (
                     <OtherUser key={user._id} user={user} />

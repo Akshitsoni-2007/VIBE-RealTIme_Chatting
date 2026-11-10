@@ -47,7 +47,7 @@ const NotFound = () => {
 
   return (
     <div
-      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden"
+      className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden"
       style={{ background: '#070a13' }}
     >
       {/* Animated gradient orbs */}
@@ -189,7 +189,7 @@ const NotFound = () => {
 
         {/* Information card */}
         <div
-          className="max-w-md rounded-3xl border border-white/10 px-10 py-8"
+          className="max-w-md rounded-3xl border border-white/10 px-6 sm:px-10 py-7 sm:py-8"
           style={{
             background: 'rgba(10, 11, 22, 0.5)',
             backdropFilter: 'blur(24px)',

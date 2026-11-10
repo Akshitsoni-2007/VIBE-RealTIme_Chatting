@@ -1,8 +1,8 @@
 import SendInput from './SendInput.jsx';
 import Messages from './Messages.jsx';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Blobatar } from 'blobatar/react';
-import { useDispatch } from 'react-redux';
+import { setSelectedUser } from '../../redux/userSlice.js';
 
 const MessageContainer = () => {
   const { selectedUser } = useSelector(store => store.user)
@@ -14,7 +14,7 @@ const MessageContainer = () => {
     <>
       {
         selectedUser !== null ? (
-          <div className="flex-1 flex flex-col relative bg-[#060813]">
+          <div className="flex-1 flex flex-col relative bg-[#060813] min-w-0">
             {/* Background Image */}
             <div
               className="absolute inset-0 z-0 opacity-70 bg-cover bg-center bg-no-repeat"
@@ -22,15 +22,19 @@ const MessageContainer = () => {
             />
 
             {/* Header */}
-            <div className="relative z-10 flex items-center justify-between px-6 py-4 bg-[#0a0f1c]/90 backdrop-blur-lg border-b border-white/5 shadow-sm">
-              <div className="flex items-center">
-                <button className="mr-3 text-gray-400 hover:text-white lg:hidden">
+            <div className="relative z-10 flex items-center justify-between gap-3 px-3 sm:px-6 py-3 sm:py-4 bg-[#0a0f1c]/90 backdrop-blur-lg border-b border-white/5 shadow-sm">
+              <div className="flex items-center min-w-0">
+                <button
+                  onClick={() => dispatch(setSelectedUser(null))}
+                  aria-label="Back to conversations"
+                  className="mr-2 -ml-2 p-2 rounded-full text-gray-400 hover:text-white md:hidden"
+                >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
-                <div className="relative w-10.5 h-10.5 rounded-full mr-3">
+                <div className="relative w-10.5 h-10.5 rounded-full mr-3 shrink-0">
                   {selectedUser && (
                     <Blobatar
                       name={selectedUser.fullname}
@@ -39,8 +43,8 @@ const MessageContainer = () => {
                   )}
                 </div>
 
-                <div>
-                  <h2 className="text-white font-semibold text-[17px] leading-tight">{selectedContact}</h2>
+                <div className="min-w-0">
+                  <h2 className="text-white font-semibold text-[17px] leading-tight truncate">{selectedContact}</h2>
 
                 </div>
               </div>
@@ -53,19 +57,9 @@ const MessageContainer = () => {
             <Messages />
 
             <SendInput />
-
-            <style jsx="true">{`
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-      `}</style>
           </div>
         ) : (
-          <div className="flex-1 relative overflow-hidden bg-[#060813] flex items-center justify-center">
+          <div className="flex-1 relative overflow-hidden bg-[#060813] hidden md:flex items-center justify-center">
 
             {/* Background */}
             <div

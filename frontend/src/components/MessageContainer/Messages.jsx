@@ -16,7 +16,7 @@ const Messages = () => {
   }, [messages, selectedUser?._id])
 
   return (
-    <div className="relative z-10 flex-1 overflow-y-auto px-6 py-5 space-y-5 scrollbar-hide flex flex-col">
+    <div className="relative z-10 flex-1 min-h-0 overflow-y-auto px-3 sm:px-6 py-3 sm:py-5 space-y-5 scrollbar-hide flex flex-col">
       {messages && messages?.map((message) => (
         <Message key={message._id} message={message} />
       ))}

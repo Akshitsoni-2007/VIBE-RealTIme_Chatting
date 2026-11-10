@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <PersistGate
         loading={
-          <div className="flex h-screen w-full items-center justify-center">
+          <div className="flex min-h-dvh w-full items-center justify-center">
             Loading...
           </div>
         }

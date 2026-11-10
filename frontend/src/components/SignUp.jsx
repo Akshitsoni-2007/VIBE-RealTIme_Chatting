@@ -47,18 +47,18 @@ const SignUp = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+      className="min-h-dvh w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url('/Moonlit_bg.png')` }}
     >
       {/* Glassmorphism Container */}
-      <div className="w-full max-w-[420px] p-10 rounded-[2.5rem] border border-white/10 bg-[#0a0b16]/50 backdrop-blur-xl shadow-[0_0_60px_-15px_rgba(75,85,150,0.4)]">
+      <div className="w-full max-w-[420px] p-6 sm:p-10 rounded-3xl sm:rounded-[2.5rem] border border-white/10 bg-[#0a0b16]/50 backdrop-blur-xl shadow-[0_0_60px_-15px_rgba(75,85,150,0.4)]">
 
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-8">
-          <div className="relative w-[4.5rem] h-16 mb-2">
+          <div className="relative w-20 h-20 mb-2">
 
             <div
-              className="w-20 h-20"
+              className="w-full h-full"
             >
               <Blobatar
                 name={user.fullname}
@@ -67,7 +67,7 @@ const SignUp = () => {
             </div>
 
           </div>
-          <h1 className="text-[2rem] font-bold text-white tracking-wide mt-2">Sign Up</h1>
+          <h1 className="text-2xl sm:text-[2rem] font-bold text-white tracking-wide mt-2">Sign Up</h1>
         </div>
 
         {/* Form Section */}
@@ -166,7 +166,7 @@ const SignUp = () => {
           </div>
 
           {/* Gender Selection */}
-          <div className="flex space-x-6 px-1 mt-4 text-sm text-gray-300">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 px-1 mt-4 text-sm text-gray-300">
             <label className="flex items-center space-x-2 cursor-pointer hover:text-white transition-colors">
               <input
                 type="checkbox"
@@ -188,7 +188,7 @@ const SignUp = () => {
           </div>
 
           {/* Login Button */}
-          <button type='submit' className="w-full cursor-pointer flex items-center justify-center space-x-2 bg-gradient-to-r from-[#5a5fdb] to-[#6d8bf4] hover:from-[#4b50c4] hover:to-[#5c7ae0] active:scale-95 text-white py-3.5 rounded-2xl transition-all duration-150 shadow-[0_4px_20px_rgba(90,95,219,0.3)] font-medium mt-8 text-sm">
+          <button type='submit' className="w-full cursor-pointer flex items-center justify-center space-x-2 bg-gradient-to-r from-[#5a5fdb] to-[#6d8bf4] hover:from-[#4b50c4] hover:to-[#5c7ae0] active:scale-95 text-white py-3.5 rounded-2xl transition-all duration-150 shadow-[0_4px_20px_rgba(90,95,219,0.3)] font-medium mt-6 sm:mt-8 text-sm">
             <span>Sign Up</span>
             <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -197,7 +197,7 @@ const SignUp = () => {
         </form>
 
         {/* Sign Up Link */}
-        <div className="mt-8 text-center text-[0.9rem] text-gray-400">
+        <div className="mt-6 sm:mt-8 text-center text-[0.9rem] text-gray-400">
           Already have an account?{' '}
           <Link to="/login" className="text-[#6d8bf4] hover:text-[#88a1f7] font-semibold transition-colors">
             Login Here
