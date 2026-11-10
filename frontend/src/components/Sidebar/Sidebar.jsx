@@ -1,81 +1,117 @@
-import React, { useState } from 'react';
-import OtherUsers from './OtherUsers.jsx';
-import axios from 'axios';
-import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
-import { useSelector, useDispatch } from 'react-redux';
-import { setAuthUser, setOtherUsers,setSelectedUser } from '../../redux/userSlice.js';
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import OtherUsers from "./OtherUsers.jsx";
+import Avatar from "../Avatar.jsx";
 
-const Sidebar = () => {
+const Sidebar = ({ onOpenProfile }) => {
   const [search, setSearch] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState(null);
-  const { otherUsers, selectedUser } = useSelector(store => store.user);
-  const dispatch = useDispatch();
+  const { authUser, otherUsers, selectedUser, onlineUsers } = useSelector(
+    (store) => store.user
+  );
 
-  const navigate = useNavigate();
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    if (!value.trim()) {
-      setFilteredUsers(null);
-      return;
-    }
-    const matched = otherUsers?.filter((user) =>
-      user.fullname.toLowerCase().includes(value.toLowerCase())
+  const filteredUsers = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return null;
+    return (otherUsers ?? []).filter(
+      (user) =>
+        user.fullname?.toLowerCase().includes(query) ||
+        user.username?.toLowerCase().includes(query)
     );
-    if (matched && matched.length > 0) {
-      setFilteredUsers(matched);
-    } else {
-      setFilteredUsers([]);
-    }
-  }
+  }, [search, otherUsers]);
 
-  const logoutHandler = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/logout`)
-      toast.success(res.data.message)
-      dispatch(setAuthUser(null))
-      dispatch(setSelectedUser(null))
-      navigate("/login")
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const onlineCount = (otherUsers ?? []).filter((user) =>
+    onlineUsers.includes(user._id)
+  ).length;
 
   return (
-    <div className={`w-full md:w-85 h-full flex-col bg-[#0b0f19] shrink-0 border-r border-white/5 z-10 ${selectedUser ? "hidden md:flex" : "flex"}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 sm:px-5 pt-6 sm:pt-8 pb-5">
-        <h1 className="select-none text-2xl font-bold text-white tracking-wide">Chats</h1>
-        <button
-          onClick={logoutHandler}
-          className="select-none text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 active:scale-95 active:bg-gray-900 px-3 py-2 rounded-3xl transition-all duration-100 ease-in-out">
-          Logout
-        </button>
-      </div>
-      <div className="px-4 pb-4">
-        <div className="relative flex items-center w-full h-11 bg-[#161a27] rounded-full px-4 overflow-hidden border border-transparent focus-within:border-white/10 transition-colors">
-          <svg className="w-5 h-5 text-gray-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            value={search}
-            onChange={handleSearchChange}
-            type="text"
-            placeholder="Search conversations..."
-            className="w-full min-w-0 bg-transparent border-none outline-none text-[14px] text-white placeholder-gray-500"
+    <aside
+      className={`relative z-20 h-full w-full shrink-0 flex-col border-r border-line bg-ink-900 md:w-[320px] lg:w-[344px] ${
+        selectedUser ? "hidden md:flex" : "flex"
+      }`}
+    >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden grain" />
+
+      <header className="relative flex items-center justify-between gap-3 px-4 pb-4 pt-[max(1.25rem,env(safe-area-inset-top))]">
+        <div className="flex items-center gap-2.5">
+          <img
+            src="/VIBE_Favicon.png"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-[9px] object-contain ring-1 ring-white/10"
           />
-          <button type='button' className="text-gray-500 hover:text-gray-300 ml-2 p-1 -mr-1 shrink-0">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-          </button>
+          <span className="font-serif text-[22px] leading-none tracking-[0.01em] text-mist-50">
+            VIBE
+          </span>
+        </div>
+
+        <button
+          type="button"
+          onClick={onOpenProfile}
+          aria-label="Open your profile"
+          className="rounded-full transition-transform duration-150 active:scale-95"
+        >
+          <Avatar user={authUser} size={36} online dotRing="#0b0e16" />
+        </button>
+      </header>
+
+      <div className="relative px-4 pb-3">
+        <div className="group flex h-11 items-center gap-2.5 rounded-xl border border-line bg-ink-850 px-3 transition-colors duration-150 focus-within:border-accent-400/45 focus-within:bg-ink-800">
+          <svg
+            className="h-[18px] w-[18px] shrink-0 text-mist-600 transition-colors group-focus-within:text-mist-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.8}
+              d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+            />
+          </svg>
+
+          <label htmlFor="conversation-search" className="sr-only">
+            Search conversations
+          </label>
+          <input
+            id="conversation-search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            type="text"
+            placeholder="Search conversations"
+            autoComplete="off"
+            spellCheck="false"
+            className="h-full w-full min-w-0 bg-transparent text-[14px] text-mist-100 outline-none placeholder:text-mist-600"
+          />
+
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+              className="-mr-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-mist-500 transition-colors hover:bg-ink-700 hover:text-mist-100"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
-      <OtherUsers users={filteredUsers} />
-    </div>
+      <div className="relative flex items-center justify-between px-4 pb-1.5 pt-1">
+        <h2 className="text-2xs font-semibold uppercase tracking-[0.22em] text-mist-500">
+          Messages
+        </h2>
+        <span className="text-2xs tabular-nums text-mist-600">
+          {onlineCount} online
+        </span>
+      </div>
+
+      <OtherUsers users={filteredUsers} query={search.trim()} />
+    </aside>
   );
 };
 
