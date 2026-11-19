@@ -1,26 +1,44 @@
-import { useSelector } from 'react-redux'
-import { Blobatar } from 'blobatar/react';
+const formatTime = (value) => {
+  if (!value) return "";
+  return new Date(value).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+};
 
-const Message = ({ message }) => {
-    const { authUser, selectedUser } = useSelector(store => store.user);
+const Message = ({ message, mine, isFirst, isLast, animate }) => {
+  const tail = mine
+    ? "1.125rem 1.125rem 0.375rem 1.125rem"
+    : "1.125rem 1.125rem 1.125rem 0.375rem";
 
-    const senderName = message.senderId === authUser?._id ? authUser?.fullname : selectedUser?.fullname;
-
-    return (
-        <div>
-            <div className={`chat ${message.senderId === authUser?._id ? "chat-end" : "chat-start"}`}>
-                <div className="chat-image avatar">
-                    <div className="w-10 rounded-full">
-                        {senderName && (
-                            <Blobatar name={senderName} background="circle" />
-                        )}
-                    </div>
-                </div>
-            
-                <div className="chat-bubble rounded-3xl bg-[#532c70] border border-white/5 break-words [overflow-wrap:anywhere]">{message?.message}</div>
-            </div>
+  return (
+    <div
+      className={`flex ${mine ? "justify-end" : "justify-start"}`}
+      style={{ marginTop: isFirst ? 14 : 3 }}
+    >
+      <div className="flex max-w-[min(80%,34rem)] flex-col">
+        <div
+          title={message.createdAt ? new Date(message.createdAt).toLocaleString() : undefined}
+          style={{ borderRadius: isLast ? tail : "1.125rem" }}
+          className={`whitespace-pre-wrap break-words px-3.5 py-2 text-[14.5px] leading-[1.55] [overflow-wrap:anywhere] ${
+            mine ? "bubble-out" : "bubble-in"
+          } ${animate ? "anim-rise" : ""}`}
+        >
+          {message?.message}
         </div>
-    )
-}
 
-export default Message
+        {isLast && message.createdAt && (
+          <span
+            className={`mt-1 px-1 text-[10.5px] tabular-nums text-mist-600 ${
+              mine ? "text-right" : "text-left"
+            }`}
+          >
+            {formatTime(message.createdAt)}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Message;

@@ -1,25 +1,420 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-html,
-body,
-#root {
-    min-height: 100%;
+/* ------------------------------------------------------------------
+   VIBE design tokens
+   A single dark "moonlit" system: deep ink surfaces, warm moonlight
+   for the messages you send, and one violet accent taken from the
+   VIBE mark. No decorative gradients on controls.
+------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
+
+  --color-ink-950: #07080c;
+  --color-ink-925: #090b11;
+  --color-ink-900: #0b0e16;
+  --color-ink-850: #10141d;
+  --color-ink-800: #141924;
+  --color-ink-750: #192030;
+  --color-ink-700: #222a3c;
+
+  --color-mist-50: #f7f8fb;
+  --color-mist-100: #eef0f6;
+  --color-mist-200: #dcdfe9;
+  --color-mist-300: #bcc1d0;
+  --color-mist-400: #969cb0;
+  --color-mist-500: #757c91;
+  --color-mist-600: #565d70;
+  --color-mist-700: #3d4354;
+
+  --color-accent-300: #b7abff;
+  --color-accent-400: #9b8cff;
+  --color-accent-500: #7c6bf5;
+  --color-accent-600: #6653e6;
+  --color-accent-700: #5140c4;
+
+  --color-cyan-400: #46c9f0;
+  --color-magenta-400: #f06fd0;
+  --color-positive: #4ade80;
+
+  --color-moon: #f0ebe1;
+  --color-moon-ink: #1a1b20;
+
+  --color-line: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.13);
+
+  --text-2xs: 0.6875rem;
 }
 
-body{
-    background-color: #0E1A2B;
-    background-size: cover;
-    color: white;
-    overflow-x: hidden;
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-mist-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(124, 107, 245, 0.35);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-mist-600);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Quiet scrollbars everywhere, so panes never grow a bright rail. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  /* ---- Surfaces ------------------------------------------------ */
+  .pane {
+    background-color: var(--color-ink-900);
+  }
+
+  .grain::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Buttons -------------------------------------------------- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.875rem;
+    padding: 0 1.25rem;
+    border-radius: 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #fff;
+    background-color: var(--color-accent-500);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 10px 30px -16px rgba(124, 107, 245, 0.95);
+    transition:
+      background-color 150ms ease,
+      box-shadow 200ms ease,
+      transform 120ms ease;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-accent-400);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    background-color: var(--color-accent-600);
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-quiet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 0.875rem;
+    border-radius: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-mist-300);
+    border: 1px solid var(--color-line);
+    background-color: transparent;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease,
+      transform 120ms ease;
+  }
+
+  .btn-quiet:hover {
+    color: var(--color-mist-100);
+    background-color: var(--color-ink-800);
+    border-color: var(--color-line-strong);
+  }
+
+  .btn-quiet:active {
+    transform: translateY(1px);
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.7rem;
+    color: var(--color-mist-400);
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      transform 120ms ease;
+  }
+
+  .icon-btn:hover {
+    color: var(--color-mist-100);
+    background-color: var(--color-ink-800);
+  }
+
+  .icon-btn:active {
+    transform: scale(0.94);
+  }
+
+  /* ---- Forms ---------------------------------------------------- */
+  .field-label {
+    display: block;
+    margin-bottom: 0.4375rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-mist-500);
+  }
+
+  .field {
+    width: 100%;
+    height: 3rem;
+    padding: 0 0.9375rem;
+    border-radius: 0.8125rem;
+    background-color: var(--color-ink-850);
+    border: 1px solid var(--color-line);
+    color: var(--color-mist-100);
+    font-size: 0.9375rem;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .field:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: rgba(155, 140, 255, 0.55);
+    background-color: var(--color-ink-800);
+    box-shadow: 0 0 0 3px rgba(124, 107, 245, 0.16);
+  }
+
+  .field[aria-invalid="true"] {
+    border-color: rgba(248, 113, 113, 0.55);
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.12);
+  }
+
+  /* ---- Conversation rows ---------------------------------------- */
+  .rail-row {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.875rem;
+    padding: 0.5rem 0.625rem;
+    text-align: left;
+    color: var(--color-mist-300);
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .rail-row:hover {
+    background-color: var(--color-ink-850);
+    color: var(--color-mist-100);
+  }
+
+  .rail-row[data-active="true"] {
+    background-color: var(--color-ink-800);
+    color: var(--color-mist-50);
+  }
+
+  /* ---- Message bubbles ------------------------------------------ */
+  .bubble-in {
+    background-color: var(--color-ink-800);
+    border: 1px solid var(--color-line);
+    color: var(--color-mist-100);
+    border-radius: 1.125rem 1.125rem 1.125rem 0.375rem;
+  }
+
+  .bubble-out {
+    background-color: var(--color-moon);
+    color: var(--color-moon-ink);
+    border-radius: 1.125rem 1.125rem 0.375rem 1.125rem;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+  }
+
+  /* ---- Motion ---------------------------------------------------- */
+  .anim-rise {
+    animation: vibe-rise 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .anim-fade {
+    animation: vibe-fade 220ms ease-out both;
+  }
+
+  .anim-slide-left {
+    animation: vibe-slide-left 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-ink-800);
+  }
+
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+    animation: vibe-shimmer 1.6s infinite;
+  }
+}
+
+@keyframes vibe-rise {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vibe-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vibe-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vibe-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes vibe-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

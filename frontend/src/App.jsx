@@ -5,7 +5,7 @@ import Login from "./components/Login.jsx"
 import NotFound from "./components/NotFound.jsx"
 import { useDispatch, useSelector } from "react-redux"
 import io from "socket.io-client"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { setOnlineUsers } from "./redux/userSlice.js"
 import { setSocket } from "./redux/socketSlice.js"
 

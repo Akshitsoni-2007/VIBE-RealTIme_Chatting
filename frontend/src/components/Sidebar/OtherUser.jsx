@@ -1,33 +1,38 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedUser } from '../../redux/userSlice';
-import { Blobatar } from "@blobatar/react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedUser } from "../../redux/userSlice";
+import Avatar from "../Avatar.jsx";
 
-const otherUser = ({ user }) => {
-    const dispatch = useDispatch();
-    const { selectedUser, onlineUsers } = useSelector(store => store.user);
-    const isOnline = onlineUsers.includes(user._id)
-    const selectedUserHandler = () => {
-        dispatch(setSelectedUser(user))
-    }
-    return (
-        <div className="flex gap-2 mt-2 flex-col">
-            <div onClick={() => selectedUserHandler(user)} className={`flex gap-2 items-center rounded-2xl p-2.5 cursor-pointer select-none transition-all duration-300 ease-out ${selectedUser?._id === user?._id ? "bg-linear-to-r from-[#241542] via-[#432354] to-[#69366f] shadow-[0_6px_25px_rgba(105,54,111,0.25)]" : "bg-[#0d1220] hover:bg-[#171525]"}`}>
-                <div className={`avatar shrink-0 ${isOnline ? "avatar-online" : ""}`}>
-                    <div className="w-13 rounded-full overflow-hidden">
-                        <Blobatar
-                            name={user?.fullname}
-                            background="circle"
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-col flex-1 min-w-0">
-                    <div className="flex justify-between items-center gap-2 flex-1 min-w-0">
-                        <p className="truncate">{user?.fullname}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+const OtherUser = ({ user }) => {
+  const dispatch = useDispatch();
+  const { selectedUser, onlineUsers } = useSelector((store) => store.user);
 
-export default otherUser
+  const isSelected = selectedUser?._id === user?._id;
+  const isOnline = onlineUsers.includes(user?._id);
+
+  return (
+    <button
+      type="button"
+      onClick={() => dispatch(setSelectedUser(user))}
+      aria-current={isSelected ? "true" : undefined}
+      data-active={isSelected}
+      className="rail-row"
+    >
+      {isSelected && (
+        <span className="absolute left-1 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-full bg-accent-400" />
+      )}
+
+      <Avatar user={user} size={44} online={isOnline} dotRing="#0b0e16" />
+
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[14.5px] font-medium leading-tight">
+          {user.fullname}
+        </span>
+        <span className="mt-1 block truncate text-[12.5px] leading-none text-mist-500">
+          @{user.username}
+        </span>
+      </span>
+    </button>
+  );
+};
+
+export default OtherUser;
